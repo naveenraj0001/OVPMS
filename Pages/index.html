@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OVPMS Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+
+  <div class="card shadow p-4 text-center" style="max-width: 400px; width: 100%;">
+    <h3 class="mb-4">OVPMS Google Login</h3>
+
+    <div id="g_id_onload"
+         data-client_id="463183836084-8vv4kfrl4g7815srs4ul8o9vpimdkc1u.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="outline"
+           data-text="signin_with"
+           data-shape="rectangular"
+           data-logo_alignment="left">
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function handleCredentialResponse(response) {
+      console.log("ID TOKEN:", response.credential);
+
+      fetch("http://127.0.0.1:8000/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          token: response.credential
+        })
+      })
+      .then(res => res.json())
+      .then(data => console.log("BACKEND RESPONSE:", data))
+      .catch(err => console.error(err));
+    }
+  </script>
+
+</body>
+</html>

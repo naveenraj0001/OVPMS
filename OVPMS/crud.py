@@ -56,3 +56,4 @@ def get_or_create_user(
         return user
 
     return create_user(db, google_id, email, name, picture)
+

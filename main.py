@@ -32,7 +32,7 @@ Base.metadata.create_all(bind=engine)
 
 
 templates = Jinja2Templates(
-    directory=BASE_DIR / "OVPMS" / "pages"
+    directory=BASE_DIR / "Pages"
 )
 
 
